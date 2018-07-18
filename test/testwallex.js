@@ -121,6 +121,90 @@ describe('wallex api test', function () {
                 });
             });
         });
+        context('P3 test cases', function () {
+            it('should return 400 when account number is lost.', function(done){
+                // this.timeout(5000);
+                var payload = {};
+                Object.assign(payload,basicPayload,swiftCode,us_aba);
+                delete payload['account_number'];
+                console.log(payload);
+                api.postPayment(env,payload, function(error,statusCode,body){
+                    // console.log(body);
+                    assert.equal(statusCode,200);
+                    assert.equal(body,resources.no_account_number_error);
+                    done()
+                });
+            });
+            it('should return 400 when account number length is not correct for US bank', function(done){
+                // this.timeout(5000);
+                var payload = {};
+                Object.assign(payload, basicPayload, swiftCode, us_aba);
+                payload['account_number'] = '123456789a'.repeat(3);
+                console.log(payload);
+                api.postPayment(env,payload, function(error,statusCode,body){
+                    // console.log(body);
+                    assert.equal(statusCode,200);
+                    assert.equal(body,JSON.stringify(resources.account_number_length_error.us));
+                    done()
+                });
+            });
+            it('should return 400 when account number length is not correct for AU bank', function(done){
+                // this.timeout(5000);
+                var payload = {};
+                Object.assign(payload, basicPayload, swiftCode, au_bsb);
+                payload['account_number'] = '123456789a'.repeat(3);
+                payload['bank_country_code'] = 'AU';
+                payload['swift_code'] = 'ICBCAUBJ';
+                console.log(payload);
+                api.postPayment(env,payload, function(error,statusCode,body){
+                    // console.log(body);
+                    assert.equal(statusCode,200);
+                    assert.equal(body,JSON.stringify(resources.account_number_length_error.au));
+                    done()
+                });
+            });
+            it('should return 400 when account number length is not correct for CN bank', function(done){
+                // this.timeout(5000);
+                var payload = {};
+                Object.assign(payload, basicPayload, swiftCode);
+                payload['account_number'] = '123456789a'.repeat(3);
+                payload['bank_country_code'] = 'CN';
+                payload['swift_code'] = 'ICBCCNBJ';
+                console.log(payload);
+                api.postPayment(env,payload, function(error,statusCode,body){
+                    // console.log(body);
+                    assert.equal(statusCode,200);
+                    assert.equal(body,JSON.stringify(resources.account_number_length_error.au));
+                    done()
+                });
+            });
+            it('should return 400 when swift code is not correct for US bank', function(done){
+                // this.timeout(5000);
+                var payload = {};
+                Object.assign(payload, basicPayload, swiftCode, us_aba);
+                payload['swift_code'] = 'ICBCCNBJ';
+                console.log(payload);
+                api.postPayment(env,payload, function(error,statusCode,body){
+                    // console.log(body);
+                    assert.equal(statusCode,200);
+                    assert.equal(body,JSON.stringify(resources.wrong_swift_code));
+                    done()
+                });
+            });
+            it('should return 400 when swift code length is not correct for US bank', function(done){
+                // this.timeout(5000);
+                var payload = {};
+                Object.assign(payload, basicPayload, swiftCode, us_aba);
+                payload['swift_code'] = 'ICBCUS';
+                console.log(payload);
+                api.postPayment(env,payload, function(error,statusCode,body){
+                    // console.log(body);
+                    assert.equal(statusCode,200);
+                    assert.equal(body,JSON.stringify(resources.wrong_swift_code));
+                    done()
+                });
+            });
+        });
     });
 
 });
