@@ -1,0 +1,53 @@
+
+### Test case design Stackoverflow's Signup page
+Design test cases for Stackoverflow's Signup page: https://stackoverflow.com/users/signup Ignore ‘more sign up options’ part on the page
+
+  ID  |  Priority  |  Feature  |  Summary
+  1   |    P1      |  Sign Up  | verify if sign up works well with correct info. name=abc121, email=sudahang@hotmail.com, passwd=abc12345
+  2   |    P1      |  Sign Up  | verify if sign up works with same correct info. name=abc121, email=sudahang@hotmail.com, passwd=abc12345
+  3   |    P1      |  Sign Up  | verify if CAPTCHA works with another correct info in the same machine. name=abc576, email=abcd@hotmail.com, passwd=abc12345  
+  4   |    P2      |  Sign Up  | verify if display name works with Chinese characters. name=小明, email=sudahang@hotmail.com, passwd=abc12345
+  5   |    P2      |  Sign Up  | verify if display name works with a Spanish characters. name=árbol, email=sudahang@hotmail.com, passwd=abc12345
+  6   |    P3      |  Sign Up  | verify if display name works with more than 4096 characters. name=a*4098, email=sudahang@hotmail.com, passwd=abc12345
+  7   |    P3      |  Sign Up  | verify if display name works with some special characters. name= abc@cd$*, email=sudahang@hotmail.com, passwd=abc12345
+  8   |    P3      |  Sign Up  | verify if display name works with some spaces. name=     , email=sudahang@hotmail.com, passwd=abc12345
+  9   |    P3      |  Sign Up  | verify if display name works if it's empty. name=, email=sudahang@hotmail.com, passwd=abc12345
+  10  |    P3      |  Sign Up  | verify if email works with incorrect email format. name=abc123, email=bac, passwd=abc12345
+  11  |    P2      |  Sign Up  | verify if email works with incorrect email format. name=abc123, email=bac@tt, passwd=abc12345
+  12  |    P2      |  Sign Up  | verify if email works with nonexisting email. name=aabb, email=abab@kjieooeokfhhfvc.com, passwd=abc12345
+  13  |    P3      |  Sign Up  | verify if email works when it's empty. name=tst, email=, passwd=abc12345
+  14  |    P3      |  Sign Up  | verify if email works with special characters. name=tst, email=a.-*?/_n@b.com, passwd=abc12345
+  15  |    P3      |  Sign Up  | verify if email works with long string. name=tst, email='a'*3000@'b'*2000.com, passwd=abc12345
+  16  |    P2      |  Sign Up  | verify if password works with only numbers. name=sudahang, email=sudahang@hotmail.com, passwd=1234567
+  17  |    P2      |  Sign Up  | verify if password works with only letters. name=sudahang, email=sudahang@hotmail.com, passwd=abcdfef
+  18  |    P2      |  Sign Up  | verify if password works with only 7 characters. name=sudahang, email=sudahang@hotmail.com, passwd=abc1234
+  19  |    P2      |  Sign Up  | verify if password works with some special characters. name=sudahang, email=sudahang@hotmail.com, passwd=abc1234!?
+  20  |    P3      |  Sign Up  | verify if password works with empty. name=sudahang, email=sudahang@hotmail.com, passwd=
+  21  |    P3      |  Sign Up  | verify if password works with weak string. name=sudahang, email=sudahang@hotmail.com, passwd=a1111111
+  22  |    P3      |  Sign Up  | verify if password works with long string. name=sudahang, email=sudahang@hotmail.com, passwd=123'a'*2000
+  23  |    P3      |  Sign Up  | verify if CAPTCHA validation will expire after a quite long time. name=sudahang, email=sudahang@hotmail.com, passwd=123dsdfs
+
+
+### Airwallex's Get In Touch page
+Airwallex has a Get In Touch page for customers to drop a message, so our sales person can contact them and answer their questions Use this link to access the Get In Touch page: https://demo.airwallex.com/en-AU/contact-sales
+Try test this page and document any bugs/issues/findings in a Word document
+Document in appropriate format so Dev/BA/PO or other people can easily understand it
+Include any info you think important or relevant to the issue you found
+
+Issues:
+1. If first or last name with 2000 characters, the error will show in the bottom. It's better to what's exactly wrong.
+2. If the email is like this "a@b", the same error shows up. It's better to what's exactly wrong.
+3. Phone number can accept any string.
+4. Users can post the same values for multiple times.
+5. POST https://airwallex.zendesk.com/api/v2/requests.json with "{"request":{"requester":{"name":" a  v","email":"a@test.com"},"subject":"Contact Airwallex Sales","comment":{"body":"\nFirst name:  a\nLast name:  v\nCompany:  d\nEmail: a@test.com\nPhone: -\nCurrent language: en\n"}}}" , every time it generates a unique id. The id is incremental and predictable, this is not good. Same content should return same id and id should not be predictable.
+6. Too many infomation responds to the client, this is not secure. Like "x-rate-limit:400","x-rate-limit-remaining:400", "expect-ct:max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"" etc.
+7. Input email árbol@c.com, error shows. From the response I can see this error "{"error":"RecordInvalid","description":"Record validation errors","details":{"requester":[{"description":"Requester: Email:  Accented characters may not be included in email addresses"}]}}", there should be more validation check in front end.
+
+### Airwallex't Login page testing challenge
+At times, when our customers try to login to your web app(https://demo.airwallex.com/app/#/login), the backend authentication service returns '500 Internal Server Error' due to various reasons
+A defect has been reported for above situation, and it's mentioned in the defect that the login page behaves incorrectly and didn't handle the error gracefully
+The defect assigned to a dev, and later the dev claims he has fixed it and assign the task to QA to test
+The challenge now is that we can't bring down the backend service to test the defect
+What other way you can think of to better solve this issue.
+
+Usually there are multiple environment for online service for different purpose, like dev, staging, production. When dev fixes a bug, the new build will fistly be deployed to dev for test, and then in staging for more service to do integration test. If there are no issues, then it can be deployed to production.
