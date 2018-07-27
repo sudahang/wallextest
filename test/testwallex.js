@@ -2,6 +2,8 @@ const assert   = require('chai').assert;
 const expect   = require('chai').expect;
 const should   = require('chai').should();
 const api      = require('../walletapi');
+const resources = require('../resources');
+
 
 describe('wallex api test', function () {
     var basicPayload = {
@@ -45,7 +47,7 @@ describe('wallex api test', function () {
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
                     assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.success_response));
+                    assert.equal(JSON.stringify(resources.success_response), JSON.stringify(body));
                     done()
                 });
             });
@@ -58,7 +60,7 @@ describe('wallex api test', function () {
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
                     assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.success_response));
+                    assert.equal(JSON.stringify(resources.success_response), JSON.stringify(body));
                     done()
                 });
             });
@@ -74,7 +76,7 @@ describe('wallex api test', function () {
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
                     assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.success_response));
+                    assert.equal(JSON.stringify(resources.success_response), JSON.stringify(body));
                     done()
                 });
             });
@@ -88,7 +90,7 @@ describe('wallex api test', function () {
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
                     assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.success_response));
+                    assert.equal(JSON.stringify(resources.success_response), JSON.stringify(body));
                     done()
                 });
             });
@@ -102,7 +104,7 @@ describe('wallex api test', function () {
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
                     assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.success_response));
+                    assert.equal(JSON.stringify(resources.success_response), JSON.stringify(body));
                     done()
                 });
             });
@@ -116,7 +118,7 @@ describe('wallex api test', function () {
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
                     assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.success_response));
+                    assert.equal(JSON.stringify(resources.success_response), JSON.stringify(body));
                     done()
                 });
             });
@@ -130,8 +132,8 @@ describe('wallex api test', function () {
                 console.log(payload);
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
-                    assert.equal(statusCode,200);
-                    assert.equal(body,resources.no_account_number_error);
+                    assert.equal(statusCode,400);
+                    assert.equal(JSON.stringify(resources.no_account_number_error), JSON.stringify(body));
                     done()
                 });
             });
@@ -143,8 +145,8 @@ describe('wallex api test', function () {
                 console.log(payload);
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
-                    assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.account_number_length_error.us));
+                    assert.equal(statusCode,400);
+                    assert.equal(JSON.stringify(resources.account_number_length_error.us), JSON.stringify(body));
                     done()
                 });
             });
@@ -158,8 +160,8 @@ describe('wallex api test', function () {
                 console.log(payload);
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
-                    assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.account_number_length_error.au));
+                    assert.equal(statusCode,400);
+                    assert.equal(JSON.stringify(resources.account_number_length_error.au),JSON.stringify(body));
                     done()
                 });
             });
@@ -173,8 +175,8 @@ describe('wallex api test', function () {
                 console.log(payload);
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
-                    assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.account_number_length_error.au));
+                    assert.equal(statusCode,400);
+                    assert.equal(JSON.stringify(resources.account_number_length_error.cn),JSON.stringify(body));
                     done()
                 });
             });
@@ -186,8 +188,8 @@ describe('wallex api test', function () {
                 console.log(payload);
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
-                    assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.wrong_swift_code));
+                    assert.equal(statusCode,400);
+                    assert.equal(JSON.stringify(resources.wrong_swift_code), JSON.stringify(body));
                     done()
                 });
             });
@@ -199,8 +201,8 @@ describe('wallex api test', function () {
                 console.log(payload);
                 api.postPayment(env,payload, function(error,statusCode,body){
                     // console.log(body);
-                    assert.equal(statusCode,200);
-                    assert.equal(body,JSON.stringify(resources.wrong_swift_code));
+                    assert.equal(statusCode,400);
+                    assert.equal(JSON.stringify(resources.swift_code_length_error), JSON.stringify(body));
                     done()
                 });
             });
